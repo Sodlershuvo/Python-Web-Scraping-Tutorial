@@ -1,87 +1,539 @@
-#!/usr/bin/env python
-# -*- encoding: utf-8 -*-
-from __future__ import absolute_import
-from __future__ import print_function
+Let’s suppose you want to get some information from a website? Let’s say an article from the geeksforgeeks website or some news article, what will you do? The first thing that may come in your mind is to copy and paste the information into your local media. But what if you want a large amount of data on a daily basis and as quickly as possible. In such situations, copy and paste will not work and that’s where you’ll need web scraping.
 
-import io
-import re
-from glob import glob
-from os.path import basename
-from os.path import dirname
-from os.path import join
-from os.path import splitext
+In this article, we will discuss how to perform web scraping using the requests library and beautifulsoup library in Python.
 
-from setuptools import find_packages
-from setuptools import setup
+Requests Module
+Requests library is used for making HTTP requests to a specific URL and returns the response. Python requests provide inbuilt functionalities for managing both the request and response.
+
+Installation
+Requests installation depends on the type of operating system, the basic command anywhere would be to open a command terminal and run,
 
 
-def read(*names, **kwargs):
-    with io.open(
-        join(dirname(__file__), *names),
-        encoding=kwargs.get('encoding', 'utf8')
-    ) as fh:
-        return fh.read()
+pip install requests
+Making a Request
+Python requests module has several built-in methods to make HTTP requests to specified URI using GET, POST, PUT, PATCH, or HEAD requests. A HTTP request is meant to either retrieve data from a specified URI or to push data to a server. It works as a request-response protocol between a client and a server. Here we will be using the GET request. 
+
+GET method is used to retrieve information from the given server using a given URI. The GET method sends the encoded user information appended to the page request. 
+
+Example: Python requests making GET request
+import requests
+ 
+# Making a GET request
+r = requests.get('https://www.geeksforgeeks.org/python-programming-language/')
+ 
+# check status code for response received
+# success code - 200
+print(r)
+ 
+# print content of request
+print(r.content)
+ 
+ 
+
+Output:
+
+ 
+
+Python requests making GET request
+
+Response object
+ 
+
+When one makes a request to a URI, it returns a response. This Response object in terms of python is returned by requests.method(), method being – get, post, put, etc. Response is a powerful object with lots of functions and attributes that assist in normalizing data or creating ideal portions of code. For example, response.status_code returns the status code from the headers itself, and one can check if the request was processed successfully or not.
 
 
-setup(
-    name='snyk-test',
-    use_scm_version={
-        'local_scheme': 'dirty-tag',
-        'write_to': 'src/snyk_test/_version.py',
-        'fallback_version': '0.0.2',
-    },
-    license='MIT',
-    description='A package that wraps pysnyk library for easier usage from cli interfaces',
-    long_description='%s\n%s' % (
-        re.compile('^.. start-badges.*^.. end-badges', re.M | re.S).sub('', read('README.rst')),
-        re.sub(':[a-z]+:`~?(.*?)`', r'``\1``', read('CHANGELOG.rst'))
-    ),
-    author='Avishay Bar',
-    author_email='avishay.il@gmail.com',
-    url='https://github.com/avishayil/python-snyk-test',
-    packages=find_packages('src'),
-    package_dir={'': 'src'},
-    py_modules=[splitext(basename(path))[0] for path in glob('src/*.py')],
-    include_package_data=True,
-    zip_safe=False,
-    classifiers=[
-        # complete classifier list: http://pypi.python.org/pypi?%3Aaction=list_classifiers
-        'Development Status :: 5 - Production/Stable',
-        'Intended Audience :: Developers',
-        'License :: OSI Approved :: MIT License',
-        'Operating System :: Unix',
-        'Operating System :: POSIX',
-        'Operating System :: Microsoft :: Windows',
-        'Programming Language :: Python',
-        'Programming Language :: Python :: 3.7',
-        'Programming Language :: Python :: 3.8',
-        'Topic :: Utilities',
-    ],
-    project_urls={
-        'Documentation': 'https://python-snyk-test.readthedocs.io/',
-        'Changelog': 'https://python-snyk-test.readthedocs.io/en/latest/changelog.html',
-        'Issue Tracker': 'https://github.com/avishayil/python-snyk-test/issues',
-    },
-    keywords=[
-        # eg: 'keyword1', 'keyword2', 'keyword3',
-    ],
-    python_requires='>=3.7',
-    install_requires=[
-        'pysnyk',
-        'pandas',
-    ],
-    extras_require={
-        # eg:
-        #   'rst': ['docutils>=0.11'],
-        #   ':python_version=="2.6"': ['argparse'],
-    },
-    setup_requires=[
-        'pytest-runner',
-        'setuptools_scm>=3.3.1',
-    ],
-    entry_points={
-        'console_scripts': [
-            'snyk-test = snyk_test.cli:main',
-        ]
-    },
-)
+ 
+
+Response objects can be used to imply lots of features, methods, and functionalities.
+
+ 
+
+Example: Python requests Response Object
+ 
+
+import requests
+ 
+# Making a GET request
+r = requests.get('https://www.geeksforgeeks.org/python-programming-language/')
+ 
+# print request object
+print(r.url)
+   
+# print status code
+print(r.status_code)
+ 
+ 
+
+Output:
+
+ 
+
+https://www.geeksforgeeks.org/python-programming-language/
+200
+ 
+
+For more information, refer to our Python Requests Tutorial.
+
+ 
+
+BeautifulSoup Library 
+BeautifulSoup is used extract information from the HTML and XML files. It provides a parse tree and the functions to navigate, search or modify this parse tree.
+
+Beautiful Soup is a Python library used to pull the data out of HTML and XML files for web scraping purposes. It produces a parse tree from page source code that can be utilized to drag data hierarchically and more legibly. 
+It was first presented by Leonard Richardson, who is still donating to this project, and this project is also supported by Tide lift (a paid subscription tool for open-source supervision).
+Beautiful soup3 was officially released in May 2006, Latest version released by Beautiful Soup is 4.9.2, and it supports Python 3 and Python 2.4 as well.
+Features of Beautiful Soup
+Beautiful Soup is a Python library developed for quick reversal projects like screen-scraping. Three features make it powerful:
+
+1. Beautiful Soup provides a few simple methods and Pythonic phrases for guiding, searching, and changing a parse tree: a toolkit for studying a document and removing what you need. It doesn’t take much code to document an application.
+
+2. Beautiful Soup automatically converts incoming records to Unicode and outgoing forms to UTF-8. You don’t have to think about encodings unless the document doesn’t define an encoding, and Beautiful Soup can’t catch one. Then you just have to choose the original encoding.
+
+3. Beautiful Soup sits on top of famous Python parsers like LXML and HTML, allowing you to try different parsing strategies or trade speed for flexibility.
+ 
+
+Installation
+ 
+
+To install Beautifulsoup on Windows, Linux, or any operating system, one would need pip package. To check how to install pip on your operating system, check out – PIP Installation – Windows || Linux. Now run the below command in the terminal.
+
+ 
+
+pip install beautifulsoup4
+Python BeautifulSoup install
+
+Inspecting Website
+ 
+
+Before getting out any information from the HTML of the page, we must understand the structure of the page. This is needed to be done in order to select the desired data from the entire page. We can do this by right-clicking on the page we want to scrape and select inspect element.
+
+ 
+
+python bs4 inspect element
+
+ 
+
+After clicking the inspect button the Developer Tools of the browser gets open. Now almost all the browsers come with the developers tools installed, and we will be using Chrome for this tutorial. 
+
+ 
+
+inspecting website python web scraping
+
+ 
+
+The developer’s tools allow seeing the site’s Document Object Model (DOM). If you don’t know about DOM then don’t worry just consider the text displayed as the HTML structure of the page. 
+
+ 
+
+Parsing the HTML
+ 
+
+After getting the HTML of the page let’s see how to parse this raw HTML code into some useful information. First of all, we will create a BeautifulSoup object by specifying the parser we want to use.
+
+ 
+
+Note: BeautifulSoup library is built on top of the HTML parsing libraries like html5lib, lxml, html.parser, etc. So BeautifulSoup object and specify the parser library can be created at the same time.
+
+ 
+
+Example: Python BeautifulSoup Parsing HTML
+ 
+
+import requests
+from bs4 import BeautifulSoup
+ 
+ 
+# Making a GET request
+r = requests.get('https://www.geeksforgeeks.org/python-programming-language/')
+ 
+# check status code for response received
+# success code - 200
+print(r)
+ 
+# Parsing the HTML
+soup = BeautifulSoup(r.content, 'html.parser')
+print(soup.prettify())
+Output:
+
+Python BeautifulSoup Parsing HTML
+
+This information is still not useful to us, let’s see another example to make some clear picture from this. Let’s try to extract the title of the page.
+
+import requests
+from bs4 import BeautifulSoup
+ 
+ 
+# Making a GET request
+r = requests.get('https://www.geeksforgeeks.org/python-programming-language/')
+ 
+# Parsing the HTML
+soup = BeautifulSoup(r.content, 'html.parser')
+ 
+# Getting the title tag
+print(soup.title)
+ 
+# Getting the name of the tag
+print(soup.title.name)
+ 
+# Getting the name of parent tag
+print(soup.title.parent.name)
+ 
+# use the child attribute to get
+# the name of the child tag
+Output:
+
+<title>Python Programming Language - GeeksforGeeks</title>
+title
+html
+Finding Elements
+Now, we would like to extract some useful data from the HTML content. The soup object contains all the data in the nested structure which could be programmatically extracted. The website we want to scrape contains a lot of text so now let’s scrape all those content. First, let’s inspect the webpage we want to scrape. 
+
+find_all bs4 python tutorial
+
+Finding Elements by class
+In the above image, we can see that all the content of the page is under the div with class entry-content. We will use the find class. This class will find the given tag with the given attribute. In our case, it will find all the div having class as entry-content. We have got all the content from the site but you can see that all the images and links are also scraped. So our next task is to find only the content from the above-parsed HTML. On again inspecting the HTML of our website – 
+
+find_all bs4 python tutorial
+
+We can see that the content of the page is under the <p> tag. Now we have to find all the p tags present in this class. We can use the find_all class of the BeautifulSoup.
+
+import requests
+from bs4 import BeautifulSoup
+ 
+ 
+# Making a GET request
+r = requests.get('https://www.geeksforgeeks.org/python-programming-language/')
+ 
+# Parsing the HTML
+soup = BeautifulSoup(r.content, 'html.parser')
+ 
+s = soup.find('div', class_='entry-content')
+content = s.find_all('p')
+ 
+print(content)
+ 
+ 
+
+Output:
+
+ 
+
+find_all bs4
+
+Finding Elements by ID
+ 
+
+In the above example, we have found the elements by the class name but let’s see how to find elements by id. Now for this task let’s scrape the content of the leftbar of the page. The first step is to inspect the page and see the leftbar falls under which tag.
+
+ 
+
+find elements by id bs4
+
+ 
+
+The above image shows that the leftbar falls under the <div> tag with id as main. Now lets’s get the HTML content under this tag. Now let’s inspect more of the page get the content of the leftbar. 
+
+ 
+
+python bs4 find by elements
+
+ 
+
+We can see that the list in the leftbar is under the <ul> tag with the class as leftBarList and our task is to find all the li under this ul.
+
+ 
+
+import requests
+from bs4 import BeautifulSoup
+ 
+ 
+# Making a GET request
+r = requests.get('https://www.geeksforgeeks.org/python-programming-language/')
+ 
+# Parsing the HTML
+soup = BeautifulSoup(r.content, 'html.parser')
+ 
+# Finding by id
+s = soup.find('div', id= 'main')
+ 
+# Getting the leftbar
+leftbar = s.find('ul', class_='leftBarList')
+ 
+# All the li under the above ul
+content = leftbar.find_all('li')
+ 
+print(content)
+ 
+ 
+
+Output:
+
+ 
+
+Finding Elements by ID
+
+Extracting Text from the tags
+ 
+
+In the above examples, you must have seen that while scraping the data the tags also get scraped but what if we want only the text without any tags. Don’t worry we will discuss the same in this section. We will be using the text property. It only prints the text from the tag. We will be using the above example and will remove all the tags from them.
+
+ 
+
+Example 1: Removing the tags from the content of the page 
+ 
+
+import requests
+from bs4 import BeautifulSoup
+ 
+ 
+# Making a GET request
+r = requests.get('https://www.geeksforgeeks.org/python-programming-language/')
+ 
+# Parsing the HTML
+soup = BeautifulSoup(r.content, 'html.parser')
+ 
+s = soup.find('div', class_='entry-content')
+ 
+lines = s.find_all('p')
+ 
+for line in lines:
+    print(line.text)
+ 
+ 
+
+Output:
+
+ 
+
+Extracting Text from the tags
+
+Example 2: Removing the tags from the content of the leftbar
+ 
+
+import requests
+from bs4 import BeautifulSoup
+ 
+ 
+# Making a GET request
+r = requests.get('https://www.geeksforgeeks.org/python-programming-language/')
+ 
+# Parsing the HTML
+soup = BeautifulSoup(r.content, 'html.parser')
+ 
+# Finding by id
+s = soup.find('div', id= 'main')
+ 
+# Getting the leftbar
+leftbar = s.find('ul', class_='leftBarList')
+ 
+# All the li under the above ul
+lines = leftbar.find_all('li')
+ 
+for line in lines:
+    print(line.text)
+ 
+ 
+
+Output:
+
+ 
+
+Extracting Text from the tags
+
+Extracting Links
+ 
+
+Till now we have seen how to extract text, let’s now see how to extract the links from the page.
+
+ 
+
+Example: Python BeautifulSoup Extracting Links
+ 
+
+import requests
+from bs4 import BeautifulSoup
+ 
+ 
+# Making a GET request
+r = requests.get('https://www.geeksforgeeks.org/python-programming-language/')
+ 
+# Parsing the HTML
+soup = BeautifulSoup(r.content, 'html.parser')
+ 
+# find all the anchor tags with "href"
+for link in soup.find_all('a'):
+    print(link.get('href'))
+ 
+ 
+
+Output:
+
+ 
+
+ Python BeatifulSoup Extracting Links
+
+Extracting Image Information
+ 
+
+On again inspecting the page, we can see that images lie inside the img tag and the link of that image is inside the src attribute. See  the below image – 
+
+ 
+
+extract image inspect page
+
+Example: Python BeautifulSoup Extract Image 
+ 
+
+import requests
+from bs4 import BeautifulSoup
+ 
+ 
+# Making a GET request
+r = requests.get('https://www.geeksforgeeks.org/python-programming-language/')
+ 
+# Parsing the HTML
+soup = BeautifulSoup(r.content, 'html.parser')
+ 
+images_list = []
+ 
+images = soup.select('img')
+for image in images:
+    src = image.get('src')
+    alt = image.get('alt')
+    images_list.append({"src": src, "alt": alt})
+     
+for image in images_list:
+    print(image)
+ 
+ 
+
+Output:
+
+ 
+
+Python BeautifulSoup Extract Image 
+
+Scraping multiple Pages
+ 
+
+Now, there may arise various instances where you may want to get data from multiple pages from the same website or multiple different URLs as well, and manually writing code for each webpage is a time-consuming and tedious task. Plus, it defines all basic principles of automation. Duh!  
+
+ 
+
+To solve this exact problem, we will see two main techniques that will help us extract data from multiple webpages:
+
+ 
+
+The same website
+Different website URLs
+Example 1: Looping through the page numbers 
+
+page numbers at the bottom of the GeeksforGeeks website
+
+ 
+
+Most websites have pages labeled from 1 to N. This makes it really simple for us to loop through these pages and extract data from them as these pages have similar structures. For example:
+
+ 
+
+
+page numbers at the bottom of the GeeksforGeeks website
+
+ 
+
+Here, we can see the page details at the end of the URL. Using this information we can easily create a for loop iterating over as many pages as we want (by putting page/(i)/ in the URL string and iterating “i” till N) and scrape all the useful data from them. The following code will give you more clarity over how to scrape data by using a For Loop in Python.
+
+ 
+
+import requests
+from bs4 import BeautifulSoup as bs
+ 
+URL = 'https://www.geeksforgeeks.org/page/1/'
+ 
+req = requests.get(URL)
+soup = bs(req.text, 'html.parser')
+ 
+titles = soup.find_all('div',attrs = {'class','head'})
+ 
+print(titles[4].text)
+Output:
+
+7 Most Common Time Wastes During Software Development
+Now, using the above code, we can get the titles of all the articles by just sandwiching those lines with a loop.
+
+import requests
+from bs4 import BeautifulSoup as bs
+ 
+URL = 'https://www.geeksforgeeks.org/page/'
+ 
+for page in range(1, 10):
+ 
+    req = requests.get(URL + str(page) + '/')
+    soup = bs(req.text, 'html.parser')
+ 
+    titles = soup.find_all('div', attrs={'class', 'head'})
+ 
+    for i in range(4, 19):
+        if page > 1:
+            print(f"{(i-3)+page*15}" + titles[i].text)
+        else:
+            print(f"{i-3}" + titles[i].text)
+Output:
+
+ Looping through the page numbers 
+
+Example 2: Looping through a list of different URLs
+The above technique is absolutely wonderful, but what if you need to scrape different pages, and you don’t know their page numbers? You’ll need to scrape those different URLs one by one and manually code a script for every such webpage.
+
+Instead, you could just make a list of these URLs and loop through them. By simply iterating the items in the list i.e. the URLs, we will be able to extract the titles of those pages without having to write code for each page. Here’s an example code of how you can do it.
+
+import requests
+from bs4 import BeautifulSoup as bs
+ 
+URL = ['https://www.geeksforgeeks.org','https://www.geeksforgeeks.org/page/10/']
+ 
+for url in range(0,2):
+    req = requests.get(URL[url])
+    soup = bs(req.text, 'html.parser')
+ 
+    titles = soup.find_all('div',attrs={'class','head'})
+    for i in range(4, 19):
+        if url+1 > 1:
+            print(f"{(i - 3) + url * 15}" + titles[i].text)
+        else:
+            print(f"{i - 3}" + titles[i].text)
+Output:
+
+ Looping through a list of different URLs
+
+For more information, refer to our Python BeautifulSoup Tutorial.
+
+Saving Data to CSV
+First we will create a list of dictionaries with the key value pairs that we want to add in the CSV file. Then we will use the csv module to write the output in the CSV file. See the below example for better understanding.
+
+Example: Python BeautifulSoup saving to CSV
+import requests
+from bs4 import BeautifulSoup as bs
+import csv
+ 
+URL = 'https://www.geeksforgeeks.org/page/'
+ 
+soup = bs(req.text, 'html.parser')
+ 
+titles = soup.find_all('div', attrs={'class', 'head'})
+titles_list = []
+ 
+count = 1
+for title in titles:
+    d = {}
+    d['Title Number'] = f'Title {count}'
+    d['Title Name'] = title.text
+    count += 1
+    titles_list.append(d)
+ 
+filename = 'titles.csv'
+with open(filename, 'w', newline='') as f:
+    w = csv.DictWriter(f,['Title Number','Title Name'])
+    w.writeheader()
+     
+    w.writerows(titles_list)
